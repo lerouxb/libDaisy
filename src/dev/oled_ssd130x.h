@@ -15,6 +15,9 @@ namespace daisy
 class SSD130xI2CTransport
 {
   public:
+    daisy::I2CHandle i2c_;
+    uint8_t          i2c_address_;
+
     struct Config
     {
         Config()
@@ -54,9 +57,6 @@ class SSD130xI2CTransport
         }
     };
 
-  private:
-    daisy::I2CHandle i2c_;
-    uint8_t          i2c_address_;
 };
 
 /**
@@ -245,6 +245,8 @@ template <size_t width, size_t height, typename Transport>
 class SSD130xDriver
 {
   public:
+    Transport transport_;
+    uint8_t   buffer_[width * height / 8];
     struct Config
     {
         typename Transport::Config transport_config;
@@ -388,10 +390,6 @@ class SSD130xDriver
             transport_.SendData(&buffer_[width * i], width);
         }
     };
-
-  private:
-    Transport transport_;
-    uint8_t   buffer_[width * height / 8];
 };
 
 /**
